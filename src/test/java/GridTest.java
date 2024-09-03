@@ -70,4 +70,41 @@ class GridTest {
         assertEquals(expected, grid.getPossibleValuesForCell(0, 0));
 
     }
+    @Test
+    void checkGridInvalidAsCellHasNoPossibleValues(){
+        var grid = new Grid();
+        int[] values0 = {0, 0, 3, 4, 5, 6, 7, 8, 9};
+        int[] values1 = {1, 2, 0, 0, 0, 0, 0, 0, 0};
+        grid.setRow(0, values0);
+        grid.setRow(1, values1);
+        assertFalse(grid.isGridValid());
+    }
+    @Test
+    void checkGridValidAsCellHasPossibleValues(){
+        var grid = new Grid();
+        int[] values0 = {0, 0, 0, 4, 5, 6, 7, 8, 9};
+        int[] values1 = {1, 2, 0, 0, 0, 0, 0, 0, 0};
+        grid.setRow(0, values0);
+        grid.setRow(1, values1);
+        assertTrue(grid.isGridValid());
+    }
+    @Test
+    void checkGridInvalidAsDuplicate4InThreeByThreeBox(){
+        var grid = new Grid();
+        int[] values0 = {0, 0, 0, 4, 5, 6, 7, 8, 9};
+        int[] values1 = {1, 4, 4, 0, 0, 0, 0, 0, 0};
+        grid.setRow(0, values0);
+        grid.setRow(1, values1);
+        assertFalse(grid.isGridValid());
+    }
+    @Test
+    void containsNoDuplicate(){
+        ArrayList<Integer> listWithNoDuplicate = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+        assertFalse(Grid.containsDuplicate(listWithNoDuplicate));
+    }
+    @Test
+    void containsDuplicate(){
+        ArrayList<Integer> listWithNoDuplicate = new ArrayList<>(Arrays.asList(1, 2, 3, 3, 5, 6));
+        assertTrue(Grid.containsDuplicate(listWithNoDuplicate));
+    }
 }

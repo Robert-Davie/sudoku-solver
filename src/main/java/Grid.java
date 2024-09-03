@@ -1,6 +1,6 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class Grid {
     ArrayList<ArrayList<Integer>> grid;
@@ -28,6 +28,40 @@ public class Grid {
             }
         }
     }
+    public void setGrid(ArrayList<ArrayList<Integer>> values){
+        grid = values;
+    }
+    public boolean isGridValid(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (getPossibleValuesForCell(i, j).isEmpty()){
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if (containsDuplicate(getRow(i))){
+                return false;
+            }
+            if (containsDuplicate(getColumn(i))){
+                return false;
+            }
+            if (containsDuplicate(getThreeByThreeBox(i / 3, i % 3))){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean containsDuplicate(ArrayList<Integer> listIn){
+        ArrayList<Integer> newList = new ArrayList<>();
+        for (int i : listIn){
+            if (i != 0){
+                newList.add(i);
+            }
+        }
+        HashSet<Integer> set = new HashSet<>(newList);
+        return set.size() != newList.size();
+    }
     public void setCell(int rowIn, int columnIn, int value){
         grid.get(rowIn).set(columnIn, value);
     }
@@ -54,6 +88,11 @@ public class Grid {
             grid.get(rowIn).set(i, values.get(i));
         }
     }
+    public void setRow(int rowIn, int[] values){
+        for (int i = 0; i < 9; i++) {
+            grid.get(rowIn).set(i, values[i]);
+        }
+    }
     public ArrayList<Integer> getThreeByThreeBox(int rowIn, int columnIn){
         ArrayList<Integer> result = new ArrayList<>();
         int[] rows = {rowIn*3, rowIn*3+1, rowIn*3+2};
@@ -67,6 +106,10 @@ public class Grid {
     }
     public ArrayList<Integer> getPossibleValuesForCell(int rowIn, int columnIn){
         ArrayList<Integer> result = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        //current cell appears three times so will be removed minimum of three times
+        result.add(getCell(rowIn, columnIn));
+        result.add(getCell(rowIn, columnIn));
+        result.add(getCell(rowIn, columnIn));
         for (int i : getRow(rowIn)){
             if(result.contains(i)){
                 result.remove(Integer.valueOf(i));
