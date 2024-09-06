@@ -31,6 +31,16 @@ public class Grid {
     public void setGrid(ArrayList<ArrayList<Integer>> values){
         grid = values;
     }
+    public void setGrid(int[][] values){
+        grid.clear();
+        for (int[] row: values){
+            ArrayList<Integer> temp_array = new ArrayList<>();
+            for (int value: row){
+                temp_array.add(value);
+            }
+            grid.add(temp_array);
+        }
+    }
     public boolean isGridValid(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -126,5 +136,11 @@ public class Grid {
             }
         }
         return result;
+    }
+    public void solve_cell(int rowIn, int columnIn){
+        ArrayList<Integer> possible_values = getPossibleValuesForCell(rowIn, columnIn);
+        if (possible_values.size() == 1){
+            setCell(rowIn, columnIn, possible_values.getFirst());
+        }
     }
 }

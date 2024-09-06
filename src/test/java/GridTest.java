@@ -107,4 +107,21 @@ class GridTest {
         ArrayList<Integer> listWithNoDuplicate = new ArrayList<>(Arrays.asList(1, 2, 3, 3, 5, 6));
         assertTrue(Grid.containsDuplicate(listWithNoDuplicate));
     }
+    @Test
+    void setGridWithStaticArray(){
+        var grid = new Grid();
+        int[][] grid_values = {{1, 2, 3, 4, 5, 6, 7, 8, 9}, {2, 3, 4, 5, 6, 7, 8, 9, 1}};
+        grid.setGrid(grid_values);
+        assertEquals(4, grid.getCell(1, 2));
+    }
+    @Test
+    void solveCellWhenOneOption(){
+        var grid = new Grid();
+        int[] values0 = {8, 0, 9, 4, 5, 6, 0, 0, 0};
+        int[] values1 = {1, 2, 3, 0, 0, 0, 0, 0, 0};
+        grid.setRow(0, values0);
+        grid.setRow(1, values1);
+        grid.solve_cell(0, 1);
+        assertEquals(7, grid.getCell(0, 1));
+    }
 }
