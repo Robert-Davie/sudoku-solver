@@ -2,8 +2,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GridTest {
@@ -11,7 +9,7 @@ class GridTest {
     void setFirstCellThree(){
         var grid = new Grid();
         grid.setCell(0, 0, 3);
-        assertEquals(3, grid.grid.get(0).get(0));
+        assertEquals(3, grid.grid.getFirst().getFirst());
     }
     @Test
     void getColumn(){
