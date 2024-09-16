@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class Grid {
     ArrayList<ArrayList<Integer>> grid;
@@ -142,5 +142,53 @@ public class Grid {
         if (possible_values.size() == 1){
             setCell(rowIn, columnIn, possible_values.getFirst());
         }
+    }
+    public void getInputFromTextFile(String source){
+        try {
+            File gridFile = new File("src/main/java/grid_to_solve.txt");
+            Scanner scanner = new Scanner(gridFile);
+            int row = 0;
+            int column = 0;
+            int value;
+            while (row < 9){
+                value = scanner.nextInt();
+                setCell(row, column, value);
+                column++;
+                if (column >= 9){
+                    column = 0;
+                    row++;
+                    scanner.nextLine();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File Used to Print Grid Not Found");
+            System.exit(1);
+        }
+    }
+    public boolean isValidSolution() {
+        HashSet<Integer> numbersOneToNine = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (0 >= getCell(i, j) && getCell(i, j) > 9) {
+                    return false;
+                }
+            }
+            HashSet<Integer> columnSet = new HashSet<>(getColumn(i));
+            HashSet<Integer> rowSet = new HashSet<>(getRow(i));
+            HashSet<Integer> threeByThreeSet = new HashSet<>(getThreeByThreeBox(i / 3, i % 3));
+            if (!columnSet.equals(numbersOneToNine)){
+                return false;
+            }
+            if (!rowSet.equals(numbersOneToNine)){
+                return false;
+            }
+            if (!threeByThreeSet.equals(numbersOneToNine)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean solveGrid(){
+        return false;
     }
 }
